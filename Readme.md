@@ -1,6 +1,6 @@
 # Workshop Cypress
 
-!Bienvenido! El objetivo de este taller es desarrollar los conocimientos necesarios para automatizar pruebas de interfaz gráfica (UI) usando [Cypress](https://www.cypress.io/). Mediante el desarrollo de varios ejercicios prácticos, se abarcará todo lo que necesitas para desarrollar un proyecto de automatización de forma exitosa. Durante el desarrollo de los ejercicios, se explicará cómo preparar un proyecto para un proceso de integración continúa con [Travis CI](https://travis-ci.com/), cómo usar [SauceLabs](https://saucelabs.com/) como plataforma de pruebas en la nube y el adecuado uso de [Github](https://github.com/) y [Gitflow](https://guides.github.com/introduction/flow/) para la entrega de un producto de software.
+!Bienvenido! El objetivo de este taller es desarrollar los conocimientos necesarios para automatizar pruebas de interfaz gráfica (UI) usando [Cypress](https://www.cypress.io/). Mediante el desarrollo de varios ejercicios prácticos, se abarcará todo lo que necesitas para desarrollar un proyecto de automatización de forma exitosa. Durante el desarrollo de los ejercicios, se explicará cómo preparar un proyecto para un proceso de integración continúa con [Travis CI](https://travis-ci.com/) el adecuado uso de [Github](https://github.com/) y [Gitflow](https://guides.github.com/introduction/flow/) para la entrega de un producto de software.
 
 Para realizar este taller se espera que el estudiante tenga buenos conocimientos en:
 
@@ -60,6 +60,7 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
 1. En la configuración del repositorio de GitHub en la opción Branches proteja la rama Master indicando que los PR requieran revisión antes de mergear y que requiera la comprobación del estado antes de hacer merge
 1. Dentro del menú colaboradores agregar a:
    * [jhenaoz](https://github.com/jhenaoz)
+   * [manuelam20](https://github.com/manuelam20)
 
 1. [Instalar NodeJS](https://nodejs.org/es/download/package-manager/) en su equipo si no lo tiene instalado
 1. Crear una rama **project-setup** en el repositorio
@@ -97,12 +98,52 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
    | **Author**         | _[Su nombre]_ <_[Su correo]_> (_[su github]_) |
    | **License**        | MIT                                           |
 
-1. Instalar la dependencia de protractor
+1. Instalar la dependencia de cypress
   `npm install cypress`
 
 1. Instalar las dependencias de desarrollo de typescript
   `npm i --save-dev typescript`
 
+1. crear una archivo llamado cypress.json en la raiz del proyecto con el siguiente contenido
+  ``` json
+  {
+    
+  }
+  ```
+15. crear una carpeta en la raiz del proyecto llamada cypress
+  `mkdir cypress`
+
+16. Crea dentro de la carpeta cypress el archivo tsconfig.json con el siguiente contenido
+  ``` json
+  {
+    "compilerOptions": {
+      "strict": true,
+      "baseUrl": "../node_modules",
+      "target": "es5",
+      "lib": ["es5", "dom"],
+      "types": ["cypress"]
+    },
+    "include": [
+      "**/*.ts"
+    ]
+  }
+  ```
+
+1. Crear la carpeta **cypress/integration** y dentro de la carpeta crear el archivo **google.test.ts**
+
+   ``` ts
+        describe('This is the first example of cypress', () => {
+        it('should have a title', () => {
+            cy.visit('https://www.google.com/')
+            const title = cy.title();
+            expect('Google').to.equal('Google');
+        });
+        });
+   ```
+
+
+WIP >>>>>>>>>>>>>>>>>>>>>>>
+---------------------------------------------------
 1. Instalar los types de Jasmines
   `npm install --save-dev @types/jasminewd2`
 

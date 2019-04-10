@@ -1,0 +1,30 @@
+{
+  "name": "cypress-workshop",
+  "version": "1.0.0",
+  "description": "This is a workshop about cypress",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run",
+    "open": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhenaoz/cypress-workshop.git"
+  },
+  "keywords": [
+    "ui-testing",
+    "dojo",
+    "practice",
+    "cypress"
+  ],
+  "author": "Juan David Henao jhenaoz93@gmail.com https://github.com/jhenaoz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jhenaoz/cypress-workshop/issues"
+  },
+  "homepage": "https://github.com/jhenaoz/cypress-workshop#readme",
+  "dependencies": {
+    "cypress": "^3.2.0",
+    "typescript": "^3.4.3"
+  }
+}
