@@ -185,8 +185,6 @@ WIP >>>>>>>>>>>>>>>>>>>>>>>
         - "node_modules"
     ```
 1. Habilitar Travis en el repositorio <https://docs.travis-ci.com/user/getting-started/>
-1. Modificar los scripts de **package.json** agregando `"test": "npm run test:headless"`
-1. Agregar el script `"postinstall"` con el valor `"webdriver-manager update --gecko false"`
 1. Subir los cambios a github (no cree aún el PR)
 1. Ir a la url de [Configuración de Travis](https://travis-ci.com/account/repositories)
 1. Habilite la configuración GitHub Apps
