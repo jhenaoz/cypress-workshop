@@ -165,9 +165,6 @@ cypress/screenshots
 1. Crear un PR, asignarle los revisores y esperar por la aprobación o comentarios de los revisores. Si no sabe como realizarlo siga las siguientes [instrucciones](https://help.github.com/articles/creating-a-pull-request/)
 1. Una vez aprobado realizar el merge a master seleccionando la opción “squash and merge”
 
-
-WIP >>>>>>>>>>>>>>>>>>>>>>>
-
 ### 6. Agregar Integración Continua
 
 **Descripción**: La integración continua es una práctica requerida hoy en día, en esta sesión configuraremos travis para ejecutar nuestra integración continua
@@ -190,6 +187,8 @@ WIP >>>>>>>>>>>>>>>>>>>>>>>
 1. Habilite la configuración GitHub Apps
 1. Cree un PR
 1. Verificar que la ejecución en Travis termine correctamente
+
+WIP >>>>>>>>>>>>>>>>>>>>>>>
 
 ### 7. Agregando Análisis de Código Estático
 
