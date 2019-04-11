@@ -11,10 +11,6 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
 ### Tabla de Contenido
 
 1. [Configuración Inicial del Proyecto](#1-configuración-inicial-del-proyecto)
-1. [Mejorando el primer caso de prueba](#2-mejorando-el-primer-caso-de-prueba)
-1. [Agregando Reporte a la Consola](#3-agregando-reporte-a-la-consola)
-1. [Desactivar el manejador de promesas y Selenium server](#4-desactivar-el-manejador-de-promesas-y-selenium-server)
-1. [Chrome Headless](#5-chrome-headless)
 1. [Agregar Integración Continua](#6-agregar-integración-continua)
 1. [Agregando Análisis de Código Estático](#7-agregando-análisis-de-código-estático)
 1. [Depurando El Código](#8-depurando-el-código)
@@ -141,214 +137,36 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
         });
    ```
 
+1. Crear el archivo **.gitignore** en la raíz del proyecto, el gitignore deberia ignorar la subida de archivos autogenerados y las librerias en el repositorio de codigo.
 
-WIP >>>>>>>>>>>>>>>>>>>>>>>
----------------------------------------------------
-1. Instalar los types de Jasmines
-  `npm install --save-dev @types/jasminewd2`
+``` yml
+### Ignore for NodeJs
+node_modules
 
-1. Crear en la raíz del proyecto la carpeta **protractor** y dentro de ella el archivo  **local.config.ts** y agregar la siguiente información
-    ``` ts
-    import { Config } from 'protractor';
+### Ignore for cypress
+cypress/videos
+cypress/screenshots
 
-    export const config: Config = {
-      framework: 'jasmine',
-      specs: [ '../test/google.spec.js' ],
-      seleniumAddress: 'http://localhost:4444/wd/hub'
-    };
-    ```
+### Ignore for VsCode
+.vscode
+```
 
-1. Actualizar los drivers con el comando
-
-   ``` bash
-   npx webdriver-manager update
-   ```
-
-1. En la consola ejecutar
-
-   ``` bash
-   npx webdriver-manager start
-   ```
-
-1. Crear la carpeta **test** en la raíz del proyecto y dentro de la carpeta crear el archivo **google.spec.ts**
-
-   ``` ts
-   import { browser } from 'protractor';
-
-   describe('This is the first example of protractor', () => {
-     it('should have a title', () => {
-       browser.ignoreSynchronization = true;
-       browser.get('http://www.google.com');
-       expect(browser.getTitle()).toEqual('Google');
-     });
-   });
-   ```
-
-1. Crear el archivo **tsconfig.json** en la raíz del proyecto con el siguiente contenido
-    ``` json
-    {
-      "compilerOptions": {
-        "target": "es6",
-        "sourceMap": true,
-        "outDir": "dist",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "noUnusedParameters": true,
-        "noUnusedLocals": true
-      }
-    }
-    ```
-
-1. Modificar los scripts del package.json para que tengan el siguiente contenido:
-    ``` json
-    "clean": "rm -rf dist",
-    "build": "npm run clean && tsc",
-    "test": "npm run build && protractor dist/protractor/local.config.js"
-    ```
-
-1. Ejecutar el comando en una segunda consola `npm test` y comprobar que la prueba pasa de forma satisfactoria
-1. Crear el archivo **.gitignore** en la raíz del proyecto. Ingresar a la página <https://www.gitignore.io/> y en el área de texto  agregar el _sistema operativo_, _IDE's_ y _NodeJS_, ejemplo _OSX Node VisualStudioCode_. Genere el archivo y cópielo dentro del archivo **.gitignore**
-1. Agregar al final del **.gitignore** las siguientes líneas
-    ``` bash
-    # Typescript
-    dist
-    ```
 1. Crear el archivo **LICENSE** en la raíz del proyecto con lo especificado en <https://en.wikipedia.org/wiki/MIT_License> (_Tenga en cuanta cambiar el año y el copyright holders_)
 1. Crear la carpeta a nivel de raíz llamada **.github** y dentro de ella crear el archivo **CODEOWNERS** con el siguiente contenido
     ``` bash
-    * @aperdomob @germandavid85 @luigisamurai @yesidbalvin @Scot3004 @santirogu
+    * @jhenaoz
     ```
-1. Realizar un commit donde incluya los 8 archivos modificados con el mensaje “setup protractor configuration” y subir los cambios al repositorio
+1. Realizar un commit donde incluya los archivos modificados con el mensaje “setup cypress configuration” y subir los cambios al repositorio
     ```bash
     git add .
-    git commit -m "setup protractor configuration"
+    git commit -m "setup cypress configuration"
     git push origin project-setup
     ```
 1. Crear un PR, asignarle los revisores y esperar por la aprobación o comentarios de los revisores. Si no sabe como realizarlo siga las siguientes [instrucciones](https://help.github.com/articles/creating-a-pull-request/)
 1. Una vez aprobado realizar el merge a master seleccionando la opción “squash and merge”
 
-### 2. Mejorando el primer caso de prueba
 
-**Descripción**: Se utilizará el método `onPrepare` para configurar la información que debería ser igual en todas las pruebas, adicionalmente se utilizará el `beforeEach` para organizar la prueba de forma más legible
-
-1. Crear la rama **improve-test** a partir de master
-1. Modificar el **protractor/local.config.ts** agregando la propiedad `onPrepare` con el siguiente contenido:
-    ``` ts
-    onPrepare: () => {
-        browser.ignoreSynchronization = true;
-    }
-    ```
-
-    La propiedad config debe lucir algo así:
-
-    ``` ts
-    import { Config, browser } from 'protractor';
-
-    export const config: Config = {
-      framework: 'jasmine',
-      specs: [ '../test/google.spec.js' ],
-      seleniumAddress: 'http://localhost:4444/wd/hub',
-      onPrepare: () => {
-        browser.ignoreSynchronization = true;
-      }
-    };
-    ```
-1. Cambiar el contenido del archivo **google.spec.ts** por
-    ``` ts
-    import { browser } from 'protractor';
-
-    describe('Given a SDET learning protractor', () => {
-      describe('when open Google Page', () => {
-        beforeEach(() => {
-          browser.get('http://www.google.com');
-        });
-
-        it('then should have a title', () => {
-          expect(browser.getTitle()).toEqual('Google');
-        });
-      });
-    });
-    ```
-
-1. Ejecutar `npm test` y verificar la correcta ejecución de la prueba
-1. Subir los cambios a Github
-1. Crear un PR, asignar los revisores y esperar por la aprobación o comentarios de los revisores.
-1. Una vez aprobado realizar el merge a master seleccionando la opción “squash and merge”
-1. Eliminar la rama una vez mergeada
-
-### 3. Agregando Reporte a la Consola
-
-**Descripción**: Es necesario poder ver los resultados de una forma entendible en la consola, en esta sesión se configura un reporte de consola.
-
-1. Instale la dependencia de desarrollo **jasmine-spec-reporter**
-   `npm install jasmine-spec-reporter`
-1. Crear la carpeta **protractor/helpers** y dentro de la carpeta el archivo **reporter.ts** con el siguiente contenido
-    ```ts
-    import { SpecReporter } from 'jasmine-spec-reporter';
-
-    export let reporter = () => {
-      jasmine.getEnv().addReporter(new SpecReporter({
-        spec: {
-          displayStacktrace: true
-        }
-      }));
-    };
-    ```
-1. Modifique el archivo **local.conf.ts** incluyendo el `import` del `reporter`
-    ``` ts
-    import { reporter } from './helpers/reporter';
-    ```
-1. Dentro del método `onPrepare` agregar el llamado al método reporter
-      ``` ts
-      reporter();
-      ```
-1. Solicite la revisión de código tal como se hizo en el punto anterior. Dentro de la descripción del PR incluya una imagen con el resultado de la ejecución, así como muestra a continuación
-
-   ![Console result](https://raw.githubusercontent.com/wiki/AgileTestingColombia/workshop-protractor/images/image4.png)
-
-### 4. Desactivar el manejador de promesas y Selenium server
-
-**Descripción**: Para [Octubre del 2018](https://github.com/SeleniumHQ/selenium/issues/2969) WebDriverJS dejará de dar soporte a un tipo de promesas personalizadas que ha trabajado desde sus inicios, aunque hoy en día aún hay soporte es necesario empezar a trabajar de la forma que recomienda Protractor
-
-1. Eliminar la propiedad `seleniumAddress` del **local.config.ts**
-1. Termine el proceso del `npx webdriver-manager start` (ya no es necesario)
-1. Agregar la propiedad `SELENIUM_PROMISE_MANAGER` con el valor `false` en el **local.config.ts**
-1. Modificar el archivo de **google.spec.ts** para que trabaje con **async/await**
-    ``` ts
-    import { browser } from 'protractor';
-
-    describe('Given a SDET learning protractor', () => {
-      describe('when open Google Page', () => {
-        beforeEach(async () => {
-          await browser.get('http://www.google.com');
-        });
-
-        it('then should have a title', async () => {
-          await expect(browser.getTitle()).toEqual('Google');
-        });
-      });
-    });
-    ```
-1. Solicite la revisión de código tal como se hizo en el punto anterior
-
-### 5. Chrome Headless
-
-**Descripción**: Muchas veces no contamos con servidores de integración continua que tengan acceso a máquinas con interfaz gráfica. Existen algunos navegadores que tienen versión headless que funcionan sin interfaz gráfica pero se comportan muy similar a los navegadores comunes. En esta sesión vamos a configurar la versión headless de chrome
-
-1. Duplicar el archivo **local.config.ts** con el nombre de **headless.config.ts**
-1. Agregar la propiedad de capabilities en el nuevo archivo con la siguiente información
-    ``` ts
-    capabilities: {
-      browserName: 'chrome',
-      chromeOptions: {
-        args: ['--headless', '--disable-gpu']
-      }
-    }
-    ```
-1. Duplicar el script **test** del **package.json** con el nombre de **test:headless** y cambia la ruta de ejecución al archivo **headless.conf.js**
-1. Cambia el nombre del script **test** por **test:local**
-1. Ejecuta tanto el comando `npm run test:local` como el `npm run test:headless` para comprobar que ejecuta efectivamente
-1. Solicite la revisión de código tal como se hizo en el punto anterior
+WIP >>>>>>>>>>>>>>>>>>>>>>>
 
 ### 6. Agregar Integración Continua
 
