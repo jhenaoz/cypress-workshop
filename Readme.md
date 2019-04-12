@@ -188,33 +188,58 @@ cypress/screenshots
 1. Cree un PR
 1. Verificar que la ejecución en Travis termine correctamente
 
-WIP >>>>>>>>>>>>>>>>>>>>>>>
-
 ### 7. Agregando Análisis de Código Estático
 
 **Descripción**: El análisis de código estático nos ayuda a estandarizar la forma en como escribimos código, en esta sesión configuraremos tslint con airbnb para tener análisis de código estático
 
 1. Agregar las dependencias de desarrollo **tslint** y **tslint-config-airbnb**
+
+``` bash
+npm install --save-dev tslint tslint-config-airbnb  
+```
 1. Crear el archivo **tslint.json** en la raíz con la siguientes información
-    ``` json
-    {
-      "defaultSeverity": "error",
-      "extends": [
-        "tslint-config-airbnb"
-      ],
-      "rules": {
-        "trailing-comma": [true]
-      }
+``` json
+{
+    "defaultSeverity": "error",
+    "extends": [
+    "tslint-config-airbnb"
+    ],
+    "rules": {
+    "trailing-comma": [true]
     }
-    ```
+}
+```
 1. Agregar el script de **package.json** lint
-    `"lint": "tslint --project tsconfig.json protractor/**/*.ts test/**/*.ts src/**/*.ts"`
+``` json
+"scripts" {
+  "lint": "tslint --project cypress/tsconfig.json cypress/**/*.ts"
+}
+```
 1. Corregir las reglas de forma automática `npm run lint -- --fix`
 1. Las reglas que no se puedan corregir automáticamente investigue y corrijalas. Ejecute el comando `npm run lint` para verificar que reglas esta rompiendo
-1. Modifique el script de `build` del `package.json` agregandole al principio `npm run lint &&`
+1. Para agregar esas verificaciones a la integracion continua las podemos ejecutar en paralelo usando stages en travis-ci, agrege una nueva para realizar verificacion de codigo estatico.
+
+``` yml
+jobs:
+  inlcude:
+    - stage: test
+      script: npm test
+```
+deberia quedar con un archivo asi:
+
+``` yml
+jobs:
+  inlcude:
+    - stage: lint
+      script: npm run lint
+    - stage: test
+      script: npm test
+```
 1. Solicite la revisión de código tal como se hizo en el punto anterior
 
 **NOTA:** se recomienda instalar la extensión `TSLint` de vs code
+
+WIP >>>>>>>>>>>>>>>>>>>>>>>
 
 ### 8. Depurando El Código
 
