@@ -192,11 +192,10 @@ cypress/screenshots
 **Descripción**: El análisis de código estático nos ayuda a estandarizar la forma en como escribimos código, en esta sesión configuraremos tslint con airbnb para tener análisis de código estático
 
 1. Agregar las dependencias de desarrollo **tslint** y **tslint-config-airbnb**
-
 ``` bash
-npm install --save-dev tslint tslint-config-airbnb  
+    npm install --save-dev tslint tslint-config-airbnb  
 ```
-1. Crear el archivo **tslint.json** en la raíz con la siguientes información
+2. Crear el archivo **tslint.json** en la raíz con la siguientes información
 ``` json
 {
     "defaultSeverity": "error",
@@ -208,15 +207,16 @@ npm install --save-dev tslint tslint-config-airbnb
     }
 }
 ```
-1. Agregar el script de **package.json** lint
+3. Agregar el script de **package.json** lint
 ``` json
-"scripts" {
-  "lint": "tslint --project cypress/tsconfig.json cypress/**/*.ts"
-}
+    "scripts" {
+        "lint": "tslint --project cypress/tsconfig.json cypress/**/*.ts"
+    }
 ```
-1. Corregir las reglas de forma automática `npm run lint -- --fix`
-1. Las reglas que no se puedan corregir automáticamente investigue y corrijalas. Ejecute el comando `npm run lint` para verificar que reglas esta rompiendo
-1. Para agregar esas verificaciones a la integracion continua las podemos ejecutar en paralelo usando stages en travis-ci, agrege una nueva para realizar verificacion de codigo estatico.
+
+4. Corregir las reglas de forma automática `npm run lint -- --fix`
+5. Las reglas que no se puedan corregir automáticamente investigue y corrijalas. Ejecute el comando `npm run lint` para verificar que reglas esta rompiendo
+6. Para agregar esas verificaciones a la integracion continua las podemos ejecutar en paralelo usando stages en travis-ci, agrege una nueva para realizar verificacion de codigo estatico.
 
 ``` yml
 jobs:
@@ -242,8 +242,6 @@ jobs:
 
 **Descripción**: La depuración nos ayudará a identificar y corregir las parte del código que estén presentando fallas, así como poder tener una mayor entendimiento de las valores de las variables en tiempo de ejecución. Para activar el debugger en `vs code`:
 
-1. Vaya a la vista de `Debug` (⇧⌘D -  mac / )
-1. Haga click en el ícono del engranaje y seleccione `Node.js`. Estor creará el archivo `.vscode/launch.json`
 1. Modifique el archivo google.test.ts y agrege la palabra debugger;
     ``` ts
         describe('This is the first example of cypress', () => {
@@ -254,8 +252,18 @@ jobs:
             });
         });
     ```
+1. Agrege el script open al package.json
+``` json
+    {
+        "scripts": {
+            "open": "cypress open"
+        }
+    }
+```
 1. Ejecute el comando `npm run open`
 1. Cuando ejecute la prueba abra el inspector de chrome y vuelva a lanzar la prueba.
+![CypressEditor](https://user-images.githubusercontent.com/2055110/56171067-92e36a80-5fa9-11e9-9271-1685d0ce4cc8.png)
+![CypressDebugMode](https://user-images.githubusercontent.com/2055110/56171241-2c128100-5faa-11e9-8570-808a4c60aabb.png)
 1. Envíe un pull request con una captura de pantalla en la que se identifique fue posible hacer depuración del test `google.spec.ts`
 1. Solicite la revisión de código tal como se hizo en el punto anterior
 
