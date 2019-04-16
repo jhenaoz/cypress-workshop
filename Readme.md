@@ -129,11 +129,10 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
 
    ``` ts
         describe('This is the first example of cypress', () => {
-        it('should have a title', () => {
-            cy.visit('https://www.google.com/')
-            const title = cy.title();
-            expect('Google').to.equal('Google');
-        });
+            it('should have a title', () => {
+                cy.visit('https://www.google.com/');
+                cy.title().should('be.equal', 'Google');
+            });
         });
    ```
 
@@ -193,11 +192,10 @@ cypress/screenshots
 **Descripción**: El análisis de código estático nos ayuda a estandarizar la forma en como escribimos código, en esta sesión configuraremos tslint con airbnb para tener análisis de código estático
 
 1. Agregar las dependencias de desarrollo **tslint** y **tslint-config-airbnb**
-
 ``` bash
-npm install --save-dev tslint tslint-config-airbnb  
+    npm install --save-dev tslint tslint-config-airbnb  
 ```
-1. Crear el archivo **tslint.json** en la raíz con la siguientes información
+2. Crear el archivo **tslint.json** en la raíz con la siguientes información
 ``` json
 {
     "defaultSeverity": "error",
@@ -209,15 +207,16 @@ npm install --save-dev tslint tslint-config-airbnb
     }
 }
 ```
-1. Agregar el script de **package.json** lint
+3. Agregar el script de **package.json** lint
 ``` json
-"scripts" {
-  "lint": "tslint --project cypress/tsconfig.json cypress/**/*.ts"
-}
+    "scripts" {
+        "lint": "tslint --project cypress/tsconfig.json cypress/**/*.ts"
+    }
 ```
-1. Corregir las reglas de forma automática `npm run lint -- --fix`
-1. Las reglas que no se puedan corregir automáticamente investigue y corrijalas. Ejecute el comando `npm run lint` para verificar que reglas esta rompiendo
-1. Para agregar esas verificaciones a la integracion continua las podemos ejecutar en paralelo usando stages en travis-ci, agrege una nueva para realizar verificacion de codigo estatico.
+
+4. Corregir las reglas de forma automática `npm run lint -- --fix`
+5. Las reglas que no se puedan corregir automáticamente investigue y corrijalas. Ejecute el comando `npm run lint` para verificar que reglas esta rompiendo
+6. Para agregar esas verificaciones a la integracion continua las podemos ejecutar en paralelo usando stages en travis-ci, agrege una nueva para realizar verificacion de codigo estatico.
 
 ``` yml
 jobs:
@@ -239,126 +238,67 @@ jobs:
 
 **NOTA:** se recomienda instalar la extensión `TSLint` de vs code
 
-WIP >>>>>>>>>>>>>>>>>>>>>>>
-
 ### 8. Depurando El Código
 
 **Descripción**: La depuración nos ayudará a identificar y corregir las parte del código que estén presentando fallas, así como poder tener una mayor entendimiento de las valores de las variables en tiempo de ejecución. Para activar el debugger en `vs code`:
 
-1. Vaya a la vista de `Debug` (⇧⌘D -  mac / )
-1. Haga click en el ícono del engranaje y seleccione `Node.js`. Estor creará el archivo `.vscode/launch.json`
-1. Reemplace el contenido del archivo por la siguiente información
-    ``` json
-    {
-      // Use IntelliSense to learn about possible attributes.
-      // Hover to view descriptions of existing attributes.
-      // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-      "version": "0.2.0",
-      "configurations": [
-        {
-          "type": "node",
-          "request": "launch",
-          "name": "Debug tests",
-          "program": "${workspaceRoot}/node_modules/protractor/bin/protractor",
-          "args": ["${workspaceRoot}/dist/protractor/local.config.js"],
-          "preLaunchTask": "npm: build",
-          "sourceMaps": true,
-          "smartStep": true,
-          "internalConsoleOptions": "openOnSessionStart",
-          "outFiles": [
-              "${workspaceFolder}/dist/**/*.js"
-          ]
-        },
-        {
-          "type": "node",
-          "request": "launch",
-          "name": "Debug headless tests",
-          "program": "${workspaceRoot}/node_modules/protractor/bin/protractor",
-          "args": ["${workspaceRoot}/dist/protractor/headless.config.js"],
-          "preLaunchTask": "npm: build",
-          "sourceMaps": true,
-          "smartStep": true,
-          "internalConsoleOptions": "openOnSessionStart",
-          "outFiles": [
-              "${workspaceFolder}/dist/**/*.js"
-          ]
-        }
-      ]
-    }
+1. Modifique el archivo google.test.ts y agrege la palabra debugger;
+    ``` ts
+        describe('This is the first example of cypress', () => {
+            it('should have a title', () => {
+                cy.visit('https://www.google.com/');
+                debugger; // NEW CONTENT!
+                cy.title().should('be.equal', 'Google');
+            });
+        });
     ```
-1. Compruebe que puede lanzar las pruebas y depurarlas utilzando `vs code`
+1. Agrege el script open al package.json
+``` json
+    {
+        "scripts": {
+            "open": "cypress open"
+        }
+    }
+```
+1. Ejecute el comando `npm run open`
+1. Cuando ejecute la prueba abra el inspector de chrome y vuelva a lanzar la prueba.
+![CypressEditor](https://user-images.githubusercontent.com/2055110/56171067-92e36a80-5fa9-11e9-9271-1685d0ce4cc8.png)
+![CypressDebugMode](https://user-images.githubusercontent.com/2055110/56171241-2c128100-5faa-11e9-8570-808a4c60aabb.png)
 1. Envíe un pull request con una captura de pantalla en la que se identifique fue posible hacer depuración del test `google.spec.ts`
 1. Solicite la revisión de código tal como se hizo en el punto anterior
-
-Sobre las [opciones de depuración de node](https://code.visualstudio.com/docs/nodejs/nodejs-debugging):
-
-* *program* - ejecutable de entrada del depurador
-* *args* - ruta al config del protractor en el directorio `dist`
-* *preLaunchTask* -  ejecuta la tarea
-* *sourceMaps* - utiliza los source maps del directorio `dist`
-* *smartStep* - omite código **no interesante** que se genera en el proceso de transpilación
-* *internalConsoleOptions* - abre la terminal del depuración
-* *outFiles* - ruta dónde están los archivos `sourceMap`
 
 ### 9. CSS Selector
 
 **Descripción**: Los css selector son los selectores más utilizados por los desarrolladores, tener un buen dominio de ellos facilita la automatización de pruebas. En esta sesión se implementará un primer caso de pruebas con css selectores
 
-1. Crear el archivo **buy-tshirt.spec.ts** dentro de la carpeta **test**
+1. Crear el archivo **buy-tshirt.spec.ts** dentro de la carpeta **cypress/integration**
 1. Escribir dentro del archivo el siguiente contenido
     ``` ts
-    import { $, browser } from 'protractor';
-
     describe('Buy a t-shirt', () => {
-      beforeEach(() => {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000;
-      });
+        it('Then should be bought a t-shirt', () => {
+            cy.visit('http://automationpractice.com/');
+            cy.get('#block_top_menu > ul > li:nth-child(3) > a').click();
+            cy.get('#center_column a.button.ajax_add_to_cart_button.btn.btn-default').click();
+            cy.get('[style*="display: block;"] .button-container > a').click();
+            cy.get('.cart_navigation span').click();
+            cy.get('#email').type('aperdomobo@gmail.com');
+            cy.get('#passwd').type('WorkshopProtractor');
+            cy.get('#SubmitLogin > span').click();
 
-      it('then should be bought a t-shirt', async () => {
-        await browser.get('http://automationpractice.com/');
-        await(browser.sleep(10000));
-        await $('#block_top_menu > ul > li:nth-child(3) > a').click();
-        await(browser.sleep(3000));
-        await $('#center_column a.button.ajax_add_to_cart_button.btn.btn-default').click();
-        await(browser.sleep(3000));
-        await $('[style*="display: block;"] .button-container > a').click();
-        await(browser.sleep(3000));
-        await $('.cart_navigation span').click();
-        await(browser.sleep(3000));
-
-        await $('#email').sendKeys('aperdomobo@gmail.com');
-        await $('#passwd').sendKeys('WorkshopProtractor');
-        await $('#SubmitLogin > span').click();
-        await(browser.sleep(3000));
-
-        await $('#center_column > form > p > button > span').click();
-        await(browser.sleep(3000));
-
-        await $('#cgv').click();
-        await(browser.sleep(3000));
-
-        await $('#form > p > button > span').click();
-        await(browser.sleep(3000));
-        await $('#HOOK_PAYMENT > div:nth-child(1) > div > p > a').click();
-        await(browser.sleep(3000));
-        await $('#cart_navigation > button > span').click();
-        await(browser.sleep(3000));
-
-        await expect($('#center_column > div > p > strong').getText())
-          .toBe('Your order on My Store is complete.');
-      });
+            cy.get('#center_column > form > p > button > span').click();
+            cy.get('#cgv').click();
+            cy.get('#form > p > button > span').click();
+            cy.get('#HOOK_PAYMENT > div:nth-child(1) > div > p > a').click();
+            cy.get('#cart_navigation > button > span').click();
+            cy.get('#center_column > div > p > strong')
+            .should('have.text', 'Your order on My Store is complete.');
+        });
     });
     ```
-1. Modifique los archivos de configuración de protractor cambiando
-    ``` ts
-    specs: ['../test/**/*.spec.js']
-    ```
-    y
-    ``` ts
-    getPageTimeout: 1000
-    ```
-1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
+1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators.
 1. Solicite la revisión de código tal como se hizo en el punto anterior
+
+WIP >>>>>>>>>>>>>>>>>>>>>>>
 
 ### 10. Page Object Model
 
