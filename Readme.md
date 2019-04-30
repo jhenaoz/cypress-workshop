@@ -320,10 +320,9 @@ jobs:
     export { MenuContentPage } from './menu-content.page';
     ```
 1. Modificar el archivo **buy-tshirt.spec.ts** de la siguiente forma
-    * Importar la dependencia del page object despues del import de protractor
+    * Importar la dependencia del page object
       ``` ts
-      import { browser } from 'protractor';
-      import { MenuContentPage } from '../src/page';
+      import { MenuContentPage } from '../page';
       ```
     * Creando una instancia del objeto `MenuContentPage`
       ``` ts
@@ -332,9 +331,8 @@ jobs:
       ```
     * Modificando el locator que le da clic en el menú de t-shirt
       ``` ts
-      await browser.get('http://automationpractice.com/');
-      await(browser.sleep(3000));
-      await menuContentPage.goToTShirtMenu();
+      cy.visit('http://automationpractice.com/');
+      menuContentPage.goToTShirtMenu();
       ```
 1. Realice el resto de page object y remplacelo en la prueba, los nombres de los page object son:  **address-step.page.ts**, **bank-payment.page.ts**, **order-summary.page.ts**, **payment-step.page.ts**, **product-added-modal.page.ts**, **product-list.page.ts**, **shipping-step.page.ts**, **sign-in-step.page.ts**, **summary-step.page.ts**
 1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
@@ -348,8 +346,7 @@ jobs:
 1. Enviar PR con los cambios
 1. El revisor comentará con los que no está de acuerdo, en ese caso, justifique la razón de su selección (No use **XPATH**)
 
->>>>>>>>WIP
-
+WIP>>>>>>>>>>>>>>>>>>>>
 ### 15. Separar prueba en diferentes describes
 
 **Descripción**: Por legibilidad es bueno tener sesionados cada uno de los pasos de las pruebas en diferentes describes, en esta sesión usted aprenderá cómo hacerlo
