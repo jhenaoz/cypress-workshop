@@ -98,29 +98,29 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
   `npm i --save-dev typescript`
 
 1. crear una archivo llamado cypress.json en la raiz del proyecto con el siguiente contenido
-  ``` json
-  {
-    
-  }
-  ```
-15. crear una carpeta en la raiz del proyecto llamada cypress
+    ``` json
+        {
+            
+        }
+    ```
+1. crear una carpeta en la raiz del proyecto llamada cypress
   `mkdir cypress`
 
-16. Crea dentro de la carpeta cypress el archivo tsconfig.json con el siguiente contenido
-  ``` json
-  {
-    "compilerOptions": {
-      "strict": true,
-      "baseUrl": "../node_modules",
-      "target": "es5",
-      "lib": ["es5", "dom"],
-      "types": ["cypress"]
-    },
-    "include": [
-      "**/*.ts"
-    ]
-  }
-  ```
+1. Crea dentro de la carpeta cypress el archivo tsconfig.json con el siguiente contenido
+    ``` json
+    {
+        "compilerOptions": {
+            "strict": true,
+            "baseUrl": "../node_modules",
+            "target": "es5",
+            "lib": ["es5", "dom"],
+            "types": ["cypress"]
+        },
+        "include": [
+            "**/*.ts"
+        ]
+    }
+    ```
 
 1. Crear la carpeta **cypress/integration** y dentro de la carpeta crear el archivo **google.test.ts**
 
@@ -135,18 +135,51 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
 
 1. Crear el archivo **.gitignore** en la raíz del proyecto, el gitignore deberia ignorar la subida de archivos autogenerados y las librerias en el repositorio de codigo.
 
-``` yml
-### Ignore for NodeJs
-node_modules
+    ``` yml
+    ### Ignore for NodeJs
+    node_modules
 
-### Ignore for cypress
-cypress/videos
-cypress/screenshots
+    ### Ignore for cypress
+    cypress/videos
+    cypress/screenshots
 
-### Ignore for VsCode
-.vscode
-```
+    ### Ignore for VsCode
+    .vscode
+    ```
+1. Cypress se ejecuta dentro del navegador entonces todos nuestros archivos de typescript tienen que quedar en un bundle (compilados y con source maps para poder realizar debug), agrege el siguiente contenido a este archivo **cypress/plugins/indexjs**
+    ``` javascript
+    const wp = require('@cypress/webpack-preprocessor')
 
+    module.exports = (on) => {
+    const options = {
+        webpackOptions: require('../../webpack.config'),
+    }
+    on('file:preprocessor', wp(options))
+    }
+    ```
+1. ejecute el siguiente comando:
+    ```bash
+    npm i webpack ts-loader @cypress/webpack-preprocessor
+    ```
+1. cree el archivo **webpack.config.js** en la raiz del proyecto con el siguiente contenido:
+    ```javascript
+    module.exports = {
+    resolve: {
+        extensions: ['.ts', '.js'],
+    },
+    module: {
+        rules: [
+        {
+            test: /\.ts$/,
+            exclude: [/node_modules/],
+            use: [{
+            loader: 'ts-loader',
+            }],
+        },
+        ],
+    },
+    }
+    ```
 1. Crear el archivo **LICENSE** en la raíz del proyecto con lo especificado en <https://en.wikipedia.org/wiki/MIT_License> (_Tenga en cuanta cambiar el año y el copyright holders_)
 1. Crear la carpeta a nivel de raíz llamada **.github** y dentro de ella crear el archivo **CODEOWNERS** con el siguiente contenido
     ``` bash
