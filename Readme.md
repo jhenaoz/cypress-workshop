@@ -325,7 +325,12 @@ jobs:
         });
     });
     ```
-1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators.
+1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators. Para ejecutar cypress en modo headless use el siguiente comando:
+
+    ```bash
+        npx cypress run
+    ```
+
 1. Solicite la revisión de código tal como se hizo en el punto anterior
 
 
