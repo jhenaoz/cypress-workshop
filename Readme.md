@@ -11,15 +11,12 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
 ### Tabla de Contenido
 
 1. [Configuración Inicial del Proyecto](#1-configuración-inicial-del-proyecto)
-1. [Agregar Integración Continua](#6-agregar-integración-continua)
-1. [Agregando Análisis de Código Estático](#7-agregando-análisis-de-código-estático)
-1. [Depurando El Código](#8-depurando-el-código)
-1. [CSS Selector](#9-css-selector)
-1. [Page Object Model](#10-page-object-model)
-1. [Esperas de Carga de Página y de Jasmine](#11-esperas-de-carga-de-página-y-de-jasmine)
-1. [Esperas Implicitas](#12-esperas-implicitas)
-1. [Esperas Explicitas](#13-esperas-explicitas)
-1. [Mejorando los Locator](#14-mejorando-los-locator)
+1. [Agregar Integración Continua](#2-agregar-integración-continua)
+1. [Agregando Análisis de Código Estático](#3-agregando-análisis-de-código-estático)
+1. [Depurando El Código](#4-depurando-el-código)
+1. [CSS Selector](#5-css-selector)
+1. [Page Object Model](#6-page-object-model)
+1. [Mejorando los Locator](#7-mejorando-los-locator)
 1. [Separar prueba en diferentes describes](#15-separar-prueba-en-diferentes-describes)
 1. [Agregando Jasmine Awesome](#16-agregando-jasmine-awesome)
 1. [Utilizando Capabilities para configurar Chrome](#17-utilizando-capabilities-para-configurar-chrome)
@@ -101,29 +98,29 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
   `npm i --save-dev typescript`
 
 1. crear una archivo llamado cypress.json en la raiz del proyecto con el siguiente contenido
-  ``` json
-  {
-    
-  }
-  ```
-15. crear una carpeta en la raiz del proyecto llamada cypress
+    ``` json
+        {
+            
+        }
+    ```
+1. crear una carpeta en la raiz del proyecto llamada cypress
   `mkdir cypress`
 
-16. Crea dentro de la carpeta cypress el archivo tsconfig.json con el siguiente contenido
-  ``` json
-  {
-    "compilerOptions": {
-      "strict": true,
-      "baseUrl": "../node_modules",
-      "target": "es5",
-      "lib": ["es5", "dom"],
-      "types": ["cypress"]
-    },
-    "include": [
-      "**/*.ts"
-    ]
-  }
-  ```
+1. Crea dentro de la carpeta cypress el archivo tsconfig.json con el siguiente contenido
+    ``` json
+    {
+        "compilerOptions": {
+            "strict": true,
+            "baseUrl": "../node_modules",
+            "target": "es5",
+            "lib": ["es5", "dom"],
+            "types": ["cypress"]
+        },
+        "include": [
+            "**/*.ts"
+        ]
+    }
+    ```
 
 1. Crear la carpeta **cypress/integration** y dentro de la carpeta crear el archivo **google.test.ts**
 
@@ -138,18 +135,51 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
 
 1. Crear el archivo **.gitignore** en la raíz del proyecto, el gitignore deberia ignorar la subida de archivos autogenerados y las librerias en el repositorio de codigo.
 
-``` yml
-### Ignore for NodeJs
-node_modules
+    ``` yml
+    ### Ignore for NodeJs
+    node_modules
 
-### Ignore for cypress
-cypress/videos
-cypress/screenshots
+    ### Ignore for cypress
+    cypress/videos
+    cypress/screenshots
 
-### Ignore for VsCode
-.vscode
-```
+    ### Ignore for VsCode
+    .vscode
+    ```
+1. ejecute el siguiente comando:
+    ```bash
+    npm i webpack ts-loader @cypress/webpack-preprocessor
+    ```
+1. Cypress se ejecuta dentro del navegador entonces todos nuestros archivos de typescript tienen que quedar en un bundle (compilados y con source maps para poder realizar debug), agrege el siguiente contenido a este archivo **cypress/plugins/indexjs**
+    ``` javascript
+    const wp = require('@cypress/webpack-preprocessor')
 
+    module.exports = (on) => {
+    const options = {
+        webpackOptions: require('../../webpack.config'),
+    }
+    on('file:preprocessor', wp(options))
+    }
+    ```
+1. cree el archivo **webpack.config.js** en la raiz del proyecto con el siguiente contenido:
+    ```javascript
+    module.exports = {
+    resolve: {
+        extensions: ['.ts', '.js'],
+    },
+    module: {
+        rules: [
+        {
+            test: /\.ts$/,
+            exclude: [/node_modules/],
+            use: [{
+            loader: 'ts-loader',
+            }],
+        },
+        ],
+    },
+    }
+    ```
 1. Crear el archivo **LICENSE** en la raíz del proyecto con lo especificado en <https://en.wikipedia.org/wiki/MIT_License> (_Tenga en cuanta cambiar el año y el copyright holders_)
 1. Crear la carpeta a nivel de raíz llamada **.github** y dentro de ella crear el archivo **CODEOWNERS** con el siguiente contenido
     ``` bash
@@ -164,7 +194,7 @@ cypress/screenshots
 1. Crear un PR, asignarle los revisores y esperar por la aprobación o comentarios de los revisores. Si no sabe como realizarlo siga las siguientes [instrucciones](https://help.github.com/articles/creating-a-pull-request/)
 1. Una vez aprobado realizar el merge a master seleccionando la opción “squash and merge”
 
-### 6. Agregar Integración Continua
+### 2. Agregar Integración Continua
 
 **Descripción**: La integración continua es una práctica requerida hoy en día, en esta sesión configuraremos travis para ejecutar nuestra integración continua
 
@@ -187,7 +217,7 @@ cypress/screenshots
 1. Cree un PR
 1. Verificar que la ejecución en Travis termine correctamente
 
-### 7. Agregando Análisis de Código Estático
+### 3. Agregando Análisis de Código Estático
 
 **Descripción**: El análisis de código estático nos ayuda a estandarizar la forma en como escribimos código, en esta sesión configuraremos tslint con airbnb para tener análisis de código estático
 
@@ -238,7 +268,7 @@ jobs:
 
 **NOTA:** se recomienda instalar la extensión `TSLint` de vs code
 
-### 8. Depurando El Código
+### 4. Depurando El Código
 
 **Descripción**: La depuración nos ayudará a identificar y corregir las parte del código que estén presentando fallas, así como poder tener una mayor entendimiento de las valores de las variables en tiempo de ejecución. Para activar el debugger en `vs code`:
 
@@ -267,7 +297,7 @@ jobs:
 1. Envíe un pull request con una captura de pantalla en la que se identifique fue posible hacer depuración del test `google.spec.ts`
 1. Solicite la revisión de código tal como se hizo en el punto anterior
 
-### 9. CSS Selector
+### 5. CSS Selector
 
 **Descripción**: Los css selector son los selectores más utilizados por los desarrolladores, tener un buen dominio de ellos facilita la automatización de pruebas. En esta sesión se implementará un primer caso de pruebas con css selectores
 
@@ -295,41 +325,42 @@ jobs:
         });
     });
     ```
-1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators.
+1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators. Para ejecutar cypress en modo headless use el siguiente comando:
+
+    ```bash
+        npx cypress run
+    ```
+
 1. Solicite la revisión de código tal como se hizo en el punto anterior
 
-WIP >>>>>>>>>>>>>>>>>>>>>>>
 
-### 10. Page Object Model
+### 6. Page Object Model
 
 **Descripción**: El page object model es el patrón por defecto que se utiliza para la mantenibilidad de las pruebas, conocer cómo implementar este patrón le ahorrará muchas horas de reproceso en el futuro. En esta sesión se hará la primera implementación del patrón Page Object Model (POM)
 
-1. Crear la carpeta **src/page** desde la raíz del proyecto
-1. Crear el archivo **src/page/menu-content.page.ts** con el siguiente contenido
+1. Crear la carpeta **cypress/page** desde la raíz del proyecto
+1. Crear el archivo **cypress/page/menu-content.page.ts** con el siguiente contenido
     ``` ts
-    import { $, ElementFinder } from 'protractor';
-
     export class MenuContentPage {
-      private tShirtMenu: ElementFinder;
+        private tShirtMenuSelector: string;
 
-      constructor () {
-        this.tShirtMenu = $('#block_top_menu > ul > li:nth-child(3) > a');
-      }
+        constructor () {
+            this.tShirtMenuSelector = '#block_top_menu > ul > li:nth-child(3) > a';
+        }
 
-      public async goToTShirtMenu(): Promise<void> {
-        await this.tShirtMenu.click();
-      }
+        public goToTShirtMenu() {
+            cy.get(this.tShirtMenuSelector).click();
+        }
     }
     ```
-1. Crear el archivo **src/page/index.ts** con el siguiente contenido
+1. Crear el archivo **cypress/page/index.ts** con el siguiente contenido
     ``` ts
     export { MenuContentPage } from './menu-content.page';
     ```
 1. Modificar el archivo **buy-tshirt.spec.ts** de la siguiente forma
-    * Importar la dependencia del page object despues del import de protractor
+    * Importar la dependencia del page object
       ``` ts
-      import { browser } from 'protractor';
-      import { MenuContentPage } from '../src/page';
+      import { MenuContentPage } from '../page';
       ```
     * Creando una instancia del objeto `MenuContentPage`
       ``` ts
@@ -338,64 +369,22 @@ WIP >>>>>>>>>>>>>>>>>>>>>>>
       ```
     * Modificando el locator que le da clic en el menú de t-shirt
       ``` ts
-      await browser.get('http://automationpractice.com/');
-      await(browser.sleep(3000));
-      await menuContentPage.goToTShirtMenu();
+      cy.visit('http://automationpractice.com/');
+      menuContentPage.goToTShirtMenu();
       ```
 1. Realice el resto de page object y remplacelo en la prueba, los nombres de los page object son:  **address-step.page.ts**, **bank-payment.page.ts**, **order-summary.page.ts**, **payment-step.page.ts**, **product-added-modal.page.ts**, **product-list.page.ts**, **shipping-step.page.ts**, **sign-in-step.page.ts**, **summary-step.page.ts**
 1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
 1. Solicite la revisión de código tal como se hizo en el punto anterior
 
-### 11. Esperas de Carga de Página y de Jasmine
-
-**Descripción**: Las esperas en selenium son los tiempos que se esperará para realizar algunas acciones, conocerlos y saber cómo utilizarlos nos disminuirá la fragilidad de las pruebas y adicionalmente nos ayudará a reducir los tiempos de ejecución.
-
-1. Cambia el valor del `getPageTimeout` por `30000` en los archivos de configuración de protractor
-1. Elimina el `sleep` de **10000**
-1. Ejecutar las pruebas y verifica que aun sigan funcionando
-1. Agregar el tiempo de espera de Jasmine dentro de los archivos de configuración como muestra la siguiente imagen
-    ``` ts
-    jasmineNodeOpts: {
-      defaultTimeoutInterval: 120000
-    }
-    ```
-1. Eliminar el `beforeEach` de la prueba
-1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
-1. Solicite la revisión de código tal como se hizo en el punto anterior
-
-### 12. Esperas Implicitas
-
-**Descripción**: Una espera implícita es una espera global que se tiene para cada elemento de la página. En esta sesión veremos cómo tenerla configurada nos ayudará a reducir la cantidad de sleeps de la prueba
-
-1. Agregar dentro del onPrepare de los archivos de config la línea
-    ``` ts
-    browser.manage().timeouts().implicitlyWait(3000);
-    ```
-1. Quitar todos los sleeps de la prueba
-1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
-1. Solicite la revisión de código tal como se hizo en el punto anterior
-
-### 13. Esperas Explicitas
-
-**Descripción**: Las esperas explícitas es la más recomendada, ya que nos permite hacer esperas puntuales sobre algunos elementos y no sobre todos. En esta sesión desactivaremos las esperas implícitas y activaremos las explícitas donde sea necesario
-
-1. Modificar los archivos de configuración de tal forma que desactive las esperas implicitas
-    ```ts
-    browser.manage().timeouts().implicitlyWait(0)
-    ```
-1. Ejecute la prueba e identifique en qué partes la prueba falla
-1. Utiliza esperas explícitas para solucionar las fallas de la prueba. busque apoyo de **browser** y **ExpectedConditions**
-1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
-1. Solicite la revisión de código tal como se hizo en el punto anterior
-
-### 14. Mejorando los Locator
+### 7. Mejorando los Locator
 
 **Descripción**: En esta sesión usted hará la propuesta de que locators deberían ser utilizados en la prueba que se está implementado.
 
 1. Haga su propia propuesta de locators para cada uno de los page-objects
 1. Enviar PR con los cambios
-1. El revisor comentará con los que no está de acuerdo, en ese caso, justifique la razón de su selección (No une **XPATH**)
+1. El revisor comentará con los que no está de acuerdo, en ese caso, justifique la razón de su selección (No use **XPATH**)
 
+WIP>>>>>>>>>>>>>>>>>>>>
 ### 15. Separar prueba en diferentes describes
 
 **Descripción**: Por legibilidad es bueno tener sesionados cada uno de los pasos de las pruebas en diferentes describes, en esta sesión usted aprenderá cómo hacerlo

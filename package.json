@@ -26,10 +26,14 @@
   },
   "homepage": "https://github.com/jhenaoz/cypress-workshop#readme",
   "dependencies": {
+    "@cypress/webpack-preprocessor": "^4.0.3",
     "cypress": "^3.2.0",
-    "typescript": "^3.4.3"
+    "ts-loader": "^5.4.3",
+    "typescript": "^3.4.3",
+    "webpack": "^4.30.0"
   },
   "devDependencies": {
+    "@types/node": "^11.13.7",
     "tslint": "^5.15.0",
     "tslint-config-airbnb": "^5.11.1"
   }
