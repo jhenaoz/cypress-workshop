@@ -384,8 +384,8 @@ jobs:
 1. Enviar PR con los cambios
 1. El revisor comentará con los que no está de acuerdo, en ese caso, justifique la razón de su selección (No use **XPATH**)
 
-WIP>>>>>>>>>>>>>>>>>>>>
-### 15. Separar prueba en diferentes describes
+
+### 8. Separar prueba en diferentes describes
 
 **Descripción**: Por legibilidad es bueno tener sesionados cada uno de los pasos de las pruebas en diferentes describes, en esta sesión usted aprenderá cómo hacerlo
 
@@ -397,6 +397,8 @@ WIP>>>>>>>>>>>>>>>>>>>>
     * Pago en el banco (Este debe contener el `it` de validación)
 1. Enviar PR con los cambios
 
+
+WIP>>>>>>>>>>>>>>>>>>>>
 ### 16. Agregando Jasmine Awesome
 
 **Descripción**: agregaremos un reporte visual a nuestro proyecto de tal forma que tenga un reporte html de la ejecución de las pruebas
