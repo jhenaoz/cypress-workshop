@@ -146,6 +146,10 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
     ### Ignore for VsCode
     .vscode
     ```
+1. ejecute el siguiente comando:
+    ```bash
+    npm i webpack ts-loader @cypress/webpack-preprocessor
+    ```
 1. Cypress se ejecuta dentro del navegador entonces todos nuestros archivos de typescript tienen que quedar en un bundle (compilados y con source maps para poder realizar debug), agrege el siguiente contenido a este archivo **cypress/plugins/indexjs**
     ``` javascript
     const wp = require('@cypress/webpack-preprocessor')
@@ -156,10 +160,6 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
     }
     on('file:preprocessor', wp(options))
     }
-    ```
-1. ejecute el siguiente comando:
-    ```bash
-    npm i webpack ts-loader @cypress/webpack-preprocessor
     ```
 1. cree el archivo **webpack.config.js** en la raiz del proyecto con el siguiente contenido:
     ```javascript
@@ -333,8 +333,8 @@ jobs:
 
 **Descripción**: El page object model es el patrón por defecto que se utiliza para la mantenibilidad de las pruebas, conocer cómo implementar este patrón le ahorrará muchas horas de reproceso en el futuro. En esta sesión se hará la primera implementación del patrón Page Object Model (POM)
 
-1. Crear la carpeta **cypress/integration/page** desde la raíz del proyecto
-1. Crear el archivo **cypress/integration/page/menu-content.page.ts** con el siguiente contenido
+1. Crear la carpeta **cypress/page** desde la raíz del proyecto
+1. Crear el archivo **cypress/page/menu-content.page.ts** con el siguiente contenido
     ``` ts
     export class MenuContentPage {
         private tShirtMenuSelector: string;
@@ -343,12 +343,12 @@ jobs:
             this.tShirtMenuSelector = '#block_top_menu > ul > li:nth-child(3) > a';
         }
 
-        public async goToTShirtMenu() {
+        public goToTShirtMenu() {
             cy.get(this.tShirtMenuSelector).click();
         }
     }
     ```
-1. Crear el archivo **cypress/integration/page/index.ts** con el siguiente contenido
+1. Crear el archivo **cypress/page/index.ts** con el siguiente contenido
     ``` ts
     export { MenuContentPage } from './menu-content.page';
     ```
