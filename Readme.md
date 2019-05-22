@@ -11,23 +11,24 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
 ### Tabla de Contenido
 
 1. [Configuración Inicial del Proyecto](#1-configuración-inicial-del-proyecto)
-1. [Agregar Integración Continua](#2-agregar-integración-continua)
-1. [Agregando Análisis de Código Estático](#3-agregando-análisis-de-código-estático)
-1. [Depurando El Código](#4-depurando-el-código)
-1. [CSS Selector](#5-css-selector)
-1. [Page Object Model](#6-page-object-model)
-1. [Mejorando los Locator](#7-mejorando-los-locator)
-1. [Separar prueba en diferentes describes](#15-separar-prueba-en-diferentes-describes)
-1. [Listas de Elementos, filtros y elementos dentro de elementos](#18-listas-de-elementos-filtros-y-elementos-dentro-de-elementos)
-1. [Más Locators](#19-más-locators)
-1. [Agregando Jasmine Awesome](#16-agregando-jasmine-awesome)
-1. [Ejecución de Código Javascript](#20-ejecución-de-código-javascript)
-1. [Trabajando con IFrames](#21-trabajando-con-iframes)
-1. [Subiendo un Archivo](#22-subiendo-un-archivo)
-1. [Descargando Archivos](#23-descargando-archivos)
-1. [Configurar Saucelabs](#24-configurar-saucelabs)
-1. [Probar con diferentes navegadores](#25-probar-con-diferentes-navegadores)
-1. [Zalenium](#26-zalenium)
+2. [Agregar Integración Continua](#2-agregar-integración-continua)
+3. [Agregando Análisis de Código Estático](#3-agregando-análisis-de-código-estático)
+4. [Depurando El Código](#4-depurando-el-código)
+5. [CSS Selector](#5-css-selector)
+6. [Page Object Model](#6-page-object-model)
+7. [Mejorando los Locator](#7-mejorando-los-locator)
+8. [Separar prueba en diferentes describes](#8-separar-prueba-en-diferentes-describes)
+9. [Listas de Elementos, filtros y elementos dentro de elementos](#9-listas-de-elementos-filtros-y-elementos-dentro-de-elementos)
+10. [Más Locators](#10-más-locators)
+11. [Component Testing](#11-component-testing)
+12. [Agregando Jasmine Awesome](#16-agregando-jasmine-awesome)
+13. [Ejecución de Código Javascript](#20-ejecución-de-código-javascript)
+14. [Trabajando con IFrames](#21-trabajando-con-iframes)
+15. [Subiendo un Archivo](#22-subiendo-un-archivo)
+16. [Descargando Archivos](#23-descargando-archivos)
+17. [Configurar Saucelabs](#24-configurar-saucelabs)
+18. [Probar con diferentes navegadores](#25-probar-con-diferentes-navegadores)
+19. [Zalenium](#26-zalenium)
 
 ### 1. Configuración Inicial del Proyecto
 
@@ -455,6 +456,7 @@ jobs:
         });
     ```
 1. Ejecute las pruebas de nuevo y deberia ver en el test runner de cypress las llamadas http marcadas como STUB.
+![component-testing](https://user-images.githubusercontent.com/2055110/58178317-984c6880-7c6b-11e9-8fcd-c4588b7bd213.png)
 
 1. Agrege verificaciones adicionales, como que la peticion http fue llamada con el valor de la prueba **Cypress** y que fue llamada varias veces.
 
