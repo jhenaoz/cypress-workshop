@@ -11,24 +11,24 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
 ### Tabla de Contenido
 
 1. [Configuración Inicial del Proyecto](#1-configuración-inicial-del-proyecto)
-1. [Agregar Integración Continua](#2-agregar-integración-continua)
-1. [Agregando Análisis de Código Estático](#3-agregando-análisis-de-código-estático)
-1. [Depurando El Código](#4-depurando-el-código)
-1. [CSS Selector](#5-css-selector)
-1. [Page Object Model](#6-page-object-model)
-1. [Mejorando los Locator](#7-mejorando-los-locator)
-1. [Separar prueba en diferentes describes](#15-separar-prueba-en-diferentes-describes)
-1. [Agregando Jasmine Awesome](#16-agregando-jasmine-awesome)
-1. [Utilizando Capabilities para configurar Chrome](#17-utilizando-capabilities-para-configurar-chrome)
-1. [Listas de Elementos, filtros y elementos dentro de elementos](#18-listas-de-elementos-filtros-y-elementos-dentro-de-elementos)
-1. [Más Locators](#19-más-locators)
-1. [Ejecución de Código Javascript](#20-ejecución-de-código-javascript)
-1. [Trabajando con IFrames](#21-trabajando-con-iframes)
-1. [Subiendo un Archivo](#22-subiendo-un-archivo)
-1. [Descargando Archivos](#23-descargando-archivos)
-1. [Configurar Saucelabs](#24-configurar-saucelabs)
-1. [Probar con diferentes navegadores](#25-probar-con-diferentes-navegadores)
-1. [Zalenium](#26-zalenium)
+2. [Agregar Integración Continua](#2-agregar-integración-continua)
+3. [Agregando Análisis de Código Estático](#3-agregando-análisis-de-código-estático)
+4. [Depurando El Código](#4-depurando-el-código)
+5. [CSS Selector](#5-css-selector)
+6. [Page Object Model](#6-page-object-model)
+7. [Mejorando los Locator](#7-mejorando-los-locator)
+8. [Separar prueba en diferentes describes](#8-separar-prueba-en-diferentes-describes)
+9. [Listas de Elementos, filtros y elementos dentro de elementos](#9-listas-de-elementos-filtros-y-elementos-dentro-de-elementos)
+10. [Más Locators](#10-más-locators)
+11. [Component Testing](#11-component-testing)
+12. [Agregando Jasmine Awesome](#16-agregando-jasmine-awesome)
+13. [Ejecución de Código Javascript](#20-ejecución-de-código-javascript)
+14. [Trabajando con IFrames](#21-trabajando-con-iframes)
+15. [Subiendo un Archivo](#22-subiendo-un-archivo)
+16. [Descargando Archivos](#23-descargando-archivos)
+17. [Configurar Saucelabs](#24-configurar-saucelabs)
+18. [Probar con diferentes navegadores](#25-probar-con-diferentes-navegadores)
+19. [Zalenium](#26-zalenium)
 
 ### 1. Configuración Inicial del Proyecto
 
@@ -397,48 +397,17 @@ jobs:
     * Pago en el banco (Este debe contener el `it` de validación)
 1. Enviar PR con los cambios
 
-
-WIP>>>>>>>>>>>>>>>>>>>>
-### 16. Agregando Jasmine Awesome
-
-**Descripción**: agregaremos un reporte visual a nuestro proyecto de tal forma que tenga un reporte html de la ejecución de las pruebas
-
-1. Instalar la dependencia de desarrollo **jasmine-awesome-report**
-1. Siga las instrucciones de <https://github.com/aperdomob/jasmine-awesome-report> (La carpeta debe llamarse reports y el reporte awesome)
-1. Modificar el gitignore para que excluya la carpeta del reports
-1. Modificar el package.json para que el script del clean borre la carpeta de reports
-1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
-1. Solicite la revisión de código tal como se hizo en el punto anterior
-
-### 17. Utilizando Capabilities para configurar Chrome
-
-**Descripción**: Las popups que muestra chrome cuando se está ejecutando por selenium son molestas y pueden causar fragilidad en las pruebas, en esta sesión se enseñará a desactivarlas por medio de las capabilities.
-
-1. Modificar la configuración local de protractor agregando capabilities para chrome para evitar mostrar algunas ventanas emergente en la ejecución
-    ``` ts
-    capabilities: {
-      browserName: 'chrome',
-      chromeOptions: {
-        args: ['--disable-popup-blocking', '--no-default-browser-check', '--window-size=800,600'],
-        prefs: { credentials_enable_service: false }
-      }
-    },
-    ```
-1. Tomar una foto de que el test se ejecuta sin las ventanas emergentes y colocarla en la descripción del PR
-1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
-1. Solicite la revisión de código tal como se hizo en el punto anterior
-
-### 18. Listas de Elementos, filtros y elementos dentro de elementos
+### 9. Listas de Elementos, filtros y elementos dentro de elementos
 
 **Descripción**: En muchas ocasiones tenemos que obtener un locator para posteriormente poder hacer una acción sobre un hermano o alguno que no esté directamente relacionado, en esta sesión trabajaremos con la anidación de locators y métodos de búsqueda para poder conseguir relacionar dos locators
 
 1. Agregar una variable privada dentro de **product-list.page.ts** llamado `products` el cual obtendrá todos los productos
-1. Cree el método privado `findByProduct` el cual debe retornar toda la caja del producto con el nombre específico. Utilice `$` para obtener elementos internos del locator, `filter` para filtrar la lista y `first` para obtener el primer elemento. Revise la [API de protractor](https://www.protractortest.org/#/api) por si tiene alguna duda
+1. Cree el método privado `findByProduct` el cual debe retornar toda la caja del producto con el nombre específico. Utilice `cy.get` para obtener un elemento,`find`, para encontrar elementos internos y  `contains` para filtrar la lista y `first` para obtener el primer elemento. Revise la [API de cypress](https://docs.cypress.io/api/api/table-of-contents.html) por si tiene alguna duda
 1. Elimine el método que antes obtenía el primer elemento y cambielo por un método llamado `selectProduct` que reciba el nombre del producto y le da clic en la imagen
 1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
 1. Solicite la revisión de código tal como se hizo en el punto anterior
 
-### 19. Más Locators
+### 10. Más Locators
 
 **Descripción**: esta sesión automatizaremos otra página diferente, y su misión es seleccionar los mejores locators posibles de tal forma que el page object sea lo más reutilizable posible
 
@@ -462,6 +431,49 @@ WIP>>>>>>>>>>>>>>>>>>>>
     });
     ```
 1. Realizar una comprobación del título "**Practice Automation Form**"
+### 11. Component Testing
+**Descripción**: Los sitios web tienen muchas dependencias, en especial del backend, tiempos de respuesta altos, servicios no implementados y comportamientos y flujos que no podemos probar, por lo cual cypress nos da la facilidad de interceptar los llamados http y devolver una respuesta esperada y controlada.
+1. Agrege un archivo, **cypress/fixtures/google-response.txt** con el siguiente contenido:
+
+```txt
+)]}'
+[[["Cypress\u003cb\u003e",35,[39,19],{"du":"/complete/deleteitems?client\u003dpsy-ab\u0026delq\u003dcypress+filter\u0026deltok\u003dAKtL3uReaVKfGBEK2JuXIexuw9_M-w0exA","zf":27}],["text to assert\u003cb\u003e",0]],{"q":"7XAO32BLxtd7HmlwPy5zROp9uuk"}]
+```
+1. Modifique el test case de google , **google.spec.ts**
+    ```ts
+        describe('This is the first example of cypress', () => {
+            it('should have a title', () => {
+                cy.server();
+                cy.fixture('google-response').as('googleSearchResponse');
+                cy.route('GET', '**/complete/search**', '@googleSearchResponse');
+
+                cy.visit('https://www.google.com/');
+                cy.get('[name="q"]')
+                .type('Cypress');
+
+                cy.title().should('be.equal', 'Google');
+            });
+        });
+    ```
+1. Ejecute las pruebas de nuevo y deberia ver en el test runner de cypress las llamadas http marcadas como STUB.
+![component-testing](https://user-images.githubusercontent.com/2055110/58178317-984c6880-7c6b-11e9-8fcd-c4588b7bd213.png)
+
+1. Agrege verificaciones adicionales, como que la peticion http fue llamada con el valor de la prueba **Cypress** y que fue llamada varias veces.
+
+1. Solicite la revisión de código tal como se hizo en el punto anterior
+
+WIP >>>>>>>>>>>>>>>>>>
+### 16. Agregando Jasmine Awesome
+
+**Descripción**: agregaremos un reporte visual a nuestro proyecto de tal forma que tenga un reporte html de la ejecución de las pruebas
+
+1. Instalar la dependencia de desarrollo **jasmine-awesome-report**
+1. Siga las instrucciones de <https://github.com/aperdomob/jasmine-awesome-report> (La carpeta debe llamarse reports y el reporte awesome)
+1. Modificar el gitignore para que excluya la carpeta del reports
+1. Modificar el package.json para que el script del clean borre la carpeta de reports
+1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
+1. Solicite la revisión de código tal como se hizo en el punto anterior
+
 
 ### 20. Ejecución de Código Javascript
 
