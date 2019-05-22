@@ -5,7 +5,7 @@ describe('This is the first example of cypress', () => {
     cy.route('GET', '**/complete/search**', '@googleSearchResponse');
 
     cy.visit('https://www.google.com/');
-    cy.get('input[aria-label="Buscar"]')
+    cy.get('[name="q"]')
       .type('Cypress');
 
     cy.title().should('be.equal', 'Google');
