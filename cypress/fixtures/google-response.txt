@@ -1,0 +1,2 @@
+)]}'
+[[["Cypress\u003cb\u003e",35,[39,19],{"du":"/complete/deleteitems?client\u003dpsy-ab\u0026delq\u003dcypress+filter\u0026deltok\u003dAKtL3uReaVKfGBEK2JuXIexuw9_M-w0exA","zf":27}],["text to assert\u003cb\u003e",0]],{"q":"7XAO32BLxtd7HmlwPy5zROp9uuk"}]
