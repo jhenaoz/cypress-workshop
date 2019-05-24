@@ -411,7 +411,7 @@ jobs:
 
 **Descripción**: En esta sesión automatizaremos otra página diferente, y su misión es seleccionar los mejores locators posibles de tal forma que el page object sea lo más reutilizable posible
 
-1. Crear el archivo **personal-information.page.ts** en la carpeta integration/page
+1. Crear el archivo **personal-information.page.ts** en la carpeta cypress/page
 1. Crear el archivo **locators.spec.ts** en la carpeta de cypress/integration, dentro de este archivo se navegará a <http://toolsqa.com/automation-practice-form/> y ejecutará el siguiente método que debe llenar el formulario con la información que se indica y dar clic en el botón Button (Evitar el uso de css locators)
     ``` ts
     await personalInformationPage.fillForm({

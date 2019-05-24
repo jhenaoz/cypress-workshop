@@ -9,7 +9,6 @@ describe('Given a page to practice automation', () => {
     const personalInformationPage = new PersonalInformationPage();
 
     before(() => {
-      debugger;
       personalInformationPage.fillForm({
         firstName: 'Alejandro',
         lastName: 'Perdomo',

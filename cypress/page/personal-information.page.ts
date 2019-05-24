@@ -58,7 +58,6 @@ export class PersonalInformationPage{
   }
 
   public fillForm(form: PersonalInformation) {
-    debugger;
     cy.get(this.firstNameField).type(form.firstName);
     cy.get(this.lastNameField).type(form.lastName);
     this.getSexOption(form.sex).click();
