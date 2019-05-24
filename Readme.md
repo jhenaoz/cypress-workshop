@@ -409,10 +409,10 @@ jobs:
 
 ### 10. Más Locators
 
-**Descripción**: esta sesión automatizaremos otra página diferente, y su misión es seleccionar los mejores locators posibles de tal forma que el page object sea lo más reutilizable posible
+**Descripción**: En esta sesión automatizaremos otra página diferente, y su misión es seleccionar los mejores locators posibles de tal forma que el page object sea lo más reutilizable posible
 
-1. Crear el archivo **personal-information.page.ts** en la carpeta src/page
-1. Crear el archivo **locators.spec.ts** en la carpeta de test, dentro de este archivo se navegará a <http://toolsqa.com/automation-practice-form/> y ejecutará el siguiente método que debe llenar el formulario con la información que se indica y dar clic en el botón Button (Evitar el uso de css locators)
+1. Crear el archivo **personal-information.page.ts** en la carpeta integration/page
+1. Crear el archivo **locators.spec.ts** en la carpeta de cypress/integration, dentro de este archivo se navegará a <http://toolsqa.com/automation-practice-form/> y ejecutará el siguiente método que debe llenar el formulario con la información que se indica y dar clic en el botón Button (Evitar el uso de css locators)
     ``` ts
     await personalInformationPage.fillForm({
        firstName: 'Alejandro',
@@ -431,6 +431,18 @@ jobs:
     });
     ```
 1. Realizar una comprobación del título "**Practice Automation Form**"
+
+### 10.1. Errores no controlados
+**Descripción**: La página indicada en el ejercicio anterior tiene un error no controlado, lo que provoca que el script de Cypress falle. Los errores no controlados en una página pueden provocar comportamientos inesperados y Cypress nos proporciona un método para manejarlos. [Catalog of Events](https://docs.cypress.io/api/events/catalog-of-events.html#Uncaught-Exceptions)
+
+1. Agregue al archivo cypress/support/index.js el siguiente contenido:
+```ts
+Cypress.on('uncaught:exception', (err, runnable) => {
+        // returning false here prevents Cypress from
+        // failing the test
+        return false
+})
+```
 ### 11. Component Testing
 **Descripción**: Los sitios web tienen muchas dependencias, en especial del backend, tiempos de respuesta altos, servicios no implementados y comportamientos y flujos que no podemos probar, por lo cual cypress nos da la facilidad de interceptar los llamados http y devolver una respuesta esperada y controlada.
 1. Agrege un archivo, **cypress/fixtures/google-response.txt** con el siguiente contenido:
