@@ -494,8 +494,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 	```json
         "test": "cypress run && mochawesome-merge --reportDir mochawesome-report > mochawesome-report/output.json && marge mochawesome-report/output.json",
 	```
-1. Modificar el gitignore para que excluya la carpeta **mochawesome-reports**
-1. Modificar el package.json para que se borre la carpeta **mochawesome-reports** antes de cada ejecucion de las pruebas.
+1. Modificar el gitignore para que excluya la carpeta **mochawesome-report**
+1. Modificar el package.json para que se borre la carpeta **mochawesome-report** antes de cada ejecucion de las pruebas.
 1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless.
 1. Solicite la revisión de código tal como se hizo en el punto anterior y adjunte un pantallazo del reporte generado.
 
