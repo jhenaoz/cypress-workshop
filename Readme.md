@@ -477,7 +477,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 1. Instalar la dependencia de desarrollo **mochawesome**
 	```bash
-        npm install --save mocha@5 marge mochawesome mochawesome mochawesome-merge
+        npm install --save mocha@5 marge mochawesome mochawesome-merge
 	```
 1. modifique el archivo **cypress.json**
 	```json
