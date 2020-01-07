@@ -21,14 +21,11 @@ Para realizar este taller se espera que el estudiante tenga buenos conocimientos
 9. [Listas de Elementos, filtros y elementos dentro de elementos](#9-listas-de-elementos-filtros-y-elementos-dentro-de-elementos)
 10. [Más Locators](#10-más-locators)
 11. [Component Testing](#11-component-testing)
-12. [Agregando Jasmine Awesome](#16-agregando-jasmine-awesome)
+12. [Agregando Mocha Awesome](#12-agregando-mocha-awesome)
 13. [Ejecución de Código Javascript](#20-ejecución-de-código-javascript)
 14. [Trabajando con IFrames](#21-trabajando-con-iframes)
 15. [Subiendo un Archivo](#22-subiendo-un-archivo)
 16. [Descargando Archivos](#23-descargando-archivos)
-17. [Configurar Saucelabs](#24-configurar-saucelabs)
-18. [Probar con diferentes navegadores](#25-probar-con-diferentes-navegadores)
-19. [Zalenium](#26-zalenium)
 
 ### 1. Configuración Inicial del Proyecto
 
@@ -474,18 +471,36 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 1. Solicite la revisión de código tal como se hizo en el punto anterior
 
-WIP >>>>>>>>>>>>>>>>>>
-### 16. Agregando Jasmine Awesome
+### 12. Agregando Mocha Awesome
 
 **Descripción**: agregaremos un reporte visual a nuestro proyecto de tal forma que tenga un reporte html de la ejecución de las pruebas
 
-1. Instalar la dependencia de desarrollo **jasmine-awesome-report**
-1. Siga las instrucciones de <https://github.com/aperdomob/jasmine-awesome-report> (La carpeta debe llamarse reports y el reporte awesome)
-1. Modificar el gitignore para que excluya la carpeta del reports
-1. Modificar el package.json para que el script del clean borre la carpeta de reports
-1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless. Si alguna prueba falla modificarla utilizando css locators o los tiempos hasta que logre funcionar
-1. Solicite la revisión de código tal como se hizo en el punto anterior
+1. Instalar la dependencia de desarrollo **mochawesome**
+	```bash
+        npm install --save mocha@5 marge mochawesome mochawesome-merge
+	```
+1. modifique el archivo **cypress.json**
+	```json
+        {
+        "reporter": "mochawesome",
+            "reporterOptions": {
+                "overwrite": false,
+                "html": false,
+                "json": true
+            }
+        }
+	```
+1. Modificar el script test del **package.json** de la siguiente forma:
+	```json
+        "test": "cypress run && mochawesome-merge --reportDir mochawesome-report > mochawesome-report/output.json && marge mochawesome-report/output.json",
+	```
+1. Modificar el gitignore para que excluya la carpeta **mochawesome-report**
+1. Modificar el package.json para que se borre la carpeta **mochawesome-report** antes de cada ejecucion de las pruebas.
+1. Ejecute las pruebas tanto con interfaz gráfica como en modo headless.
+1. Solicite la revisión de código tal como se hizo en el punto anterior y adjunte un pantallazo del reporte generado.
 
+
+WIP >>>>>>>>>>>>>>>>>>
 
 ### 20. Ejecución de Código Javascript
 
@@ -551,158 +566,3 @@ WIP >>>>>>>>>>>>>>>>>>
     ```
     Recibirá el nombre del archivo y devolverá el buffer que contiene la información del archivo
 1. Modificar la prueba de tal forma que descargue el archivo y después comprobar que descargó de forma correcta
-
-### 24. Configurar Saucelabs
-
-**Descripción**: Ejecutar en modo headless no siempre es la mejor opción, existen herramientas de pago como Saucelabs que nos provisionan diferentes sistemas operativos y diferentes navegadores, en esta sesión configuraremos saucelabs para ejecutar nuestras pruebas.
-
-Ya que nuestras pruebas se ejecutarán en un servidor de integración sin interfaz gráfica, debemos utilizar servicios externos para la ejecución en browsers reales. En este caso utilizaremos saucelabs.
-
-1. Crear una cuenta en [SauceLabs](https://saucelabs.com/)
-1. Una vez creada la cuenta, ir a la opción de User Settings
-
-    ![Saucelabs user settings](https://raw.githubusercontent.com/wiki/AgileTestingColombia/workshop-protractor/images/image1.png)
-
-1. Ir a la sección de Access Key y dar click en show. Esto pedirá el password para mostrar el access key. Una vez lo acceda, cópielo al portapapeles y guárdelo en un lugar seguro
-
-    ![Saucelabs access key](https://raw.githubusercontent.com/wiki/AgileTestingColombia/workshop-protractor/images/image2.png)
-
-1. Adicione al archivo **package.json** el script `test:saucelabs` y haga que este se corra cuando se ejecute el script de test
-    ``` json
-    "test:saucelabs": "npm run build && protractor dist/protractor/saucelabs.config.js",
-    "test": "npm run test:saucelabs"
-    ```
-1. Duplique el archivo  **protractor/local.config.ts** con el nombre **protractor/saucelabs.config.ts**
-1. Adicione las siguientes propiedades **protractor/saucelabs.config.ts**:
-    * `sauceUser`: tendrá el valor del user name de saucelabs (se obtendrá por variable de ambiente)
-    * `sauceKey`: tendrá el valor del key de saucelabs copiado en el punto 3 (se obtendrá por variable de ambiente)
-    * `Capabilities.name`: nombre de la ejecución del job en saucelabs
-    ``` ts
-    // ...
-
-    export let config: Config = {
-      // ...
-      sauceUser: process.env.SAUCE_USERNAME,
-      sauceKey: process.env.SAUCE_ACCESS_KEY
-    };
-    ```
-
-    ``` ts
-    // ...
-    capabilities: {
-      name: 'UI Workshop',
-      browserName: 'chrome',
-      chromeOptions: {
-        args: ['--disable-popup-blocking', '--no-default-browser-check', '--window-size=800,600'],
-        prefs: { credentials_enable_service: false }
-      }
-    },
-    // ...
-    ```
-1. Una vez configurado esto, en la consola asigne los valores para `SAUCE_USERNAME` y `SAUCE_ACCESS_KEY`, con los valores del registro en saucelabs
-    ``` bash
-    export SAUCE_USERNAME='sauce-username'
-    export SAUCE_ACCESS_KEY='sauce-keu'
-    ```
-1. Ejecute la prueba `npm test`
-1. Esto lanzará la ejecución directamente en saucelabs y se puede visualizar de la siguiente forma: <http://recordit.co/pIAXMQShQJ>
-1. Para que travis tome correctamente el `SAUCE_ACCESS_KEY` se debe configurar la variable de forma encriptada
-    ``` bash
-    travis encrypt SAUCE_USERNAME=el-usuario --add --com
-    travis encrypt SAUCE_ACCESS_KEY=el-key --add --com
-    ```
-    **Nota 1**: Si recibe un mensaje de error similar a `repository not known to https://api.travis-ci.org/: owner/repo`
-				Inicie sesión usando el comando `travis login --com`, se le solicitara ingresar su usuario y contraseña de Travis
-	**Nota 2**: Si no desea instalar el cliente de travis puede utilizar docker de la siguiente forma:
-    ```bash
-    docker run -v $(pwd):/usr/src/app -it ruby /bin/bash
-    gem install travis -v 1.8.9 --no-rdoc --no-ri
-    echo 'y' | travis -v
-    cd /usr/src/app
-    travis encrypt SAUCE_USERNAME=el-usuario --add --com
-    travis encrypt SAUCE_ACCESS_KEY=el-key --add --com
-    ```
-
-#### Sugerencias
-
-* Para configurar las variables de entorno en diferentes sistemas operativos, consulte este [link](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Environment+Variables+for+Authentication+Credentials)
-* Asegúrese de establecer los valores correctos para `SAUCE_USERNAME` y `SAUCE_ACCESS_KEY`
-* Para instalar el cliente de Travis, sigas las instrucciones de <https://github.com/travis-ci/travis.rb#installation>
-
-### 25. Probar con diferentes navegadores
-
-**Descripción**: Nuestros productos generalmente deben ser verificados en más de un navegador, por tanto es importante saber cómo ejecutar nuestras pruebas en varios navegadores.
-
-1. Necesitaremos editar el archivo **protractor/saucelabs.config.ts**, con los siguientes valoresCambiar capabilities por multiCapabilities
-    * `multiCapabilities`: contiene la configuración de varios navegadores en un mismo config file
-    ``` ts
-    import { browser, Config } from 'protractor';
-    import { reporter } from './helpers/reporter';
-
-    const firefoxConfig = {
-      browserName: 'firefox',
-      platform: 'linux',
-      name: 'firefox-tests',
-      shardTestFiles: true,
-      maxInstances: 1
-    };
-
-    const chromeConfig = {
-      browserName: 'chrome',
-      name: 'chrome-tests',
-      shardTestFiles: true,
-      maxInstances: 1
-    };
-
-    const multiCapabilities = [chromeConfig, firefoxConfig];
-
-    export let config: Config = {
-      multiCapabilities,
-      // ...
-    };
-    ```
-1. Ejecute las pruebas y en el PR suba la imagen que muestre que esta corriendo en diferentes navegadores
-    ![Saucelabs Multibrowser execution](https://raw.githubusercontent.com/wiki/AgileTestingColombia/workshop-protractor/images/image3.png)
-
-#### Sugerencias para brobar con diferentes navegadores
-
-* Las configuraciones pueden mejorarse, haciendo que se reciban parámetros por consola con los browsers en los que se desea ejecutar
-* Puede adicionar más browsers o versiones de browsers o sistema operativo, siempre y cuando sean [soportados](https://saucelabs.com/platforms) por saucelabs
-* Opciones como shardTestFiles o maxInstances también pueden ser configurables para que el usuario decida cómo ejecutar las pruebas y dejar valores por defecto para ser usado por el CI
-
-### 26. Zalenium
-
-**Descripción**: En ocasiones requerimos ejecutar nuestras pruebas en nuestro ambiente local o en un servidor de integración continua pero no tenemos los recursos suficientes para pagar todas las ejecuiones que se requieren en servicios como Saucelabs, o simplemente no queremos instalar ciertos navegadores en nuestro equipo ya que nos puede afectar nuestro ambiente de trabajo. Zalenium nos permite ejecutar nuestras pruebas dentro de containers si cumplen ciertos requerimientos y el resto mandarlo a Saucelabs de esa forma no tenemos que hacer configuraciones adicionales y tampoco incurrir a facturas muy grandes
-
-1. Descargue la imagen de docker elgalu/selenium
-    ``` bash
-    docker pull elgalu/selenium
-    ```
-
-1. Descargue la imagen de zalenium
-    ``` bash
-    docker pull dosel/zalenium
-    ```
-	**Nota 1**: Si recibe un mensaje de error similar a `Error response from daemon: Get https://registry-1.docker.io/v2/: unauthorized:incorrect username or password`
-				Inicie sesión usando el comando `echo "YOUR_DOCKER_PASSWORD" | docker login --username YOUR_DOCKER_USERNAME --password-stdin`
-
-1. Ejecute el contenedor de zalenium
-    ``` bash
-    docker run --rm -ti --name zalenium -p 4444:4444 \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        -v /tmp/videos:/home/seluser/videos \
-        --privileged dosel/zalenium start
-    ```
-
-1. Duplicar el archivo de **saucelabs.config.ts** y llamarlo **zalenium.config.ts**
-1. Configure el archivo de zalenium para que apunte al servidor de Grid de Zalenium
-    ``` ts
-    seleniumAddress: 'http://localhost:4444/wd/hub'
-    ```
-
-1. Abrá la página `http://localhost:4444/grid/admin/live`
-1. Remueva del **package.json** la instrucción del `--gecko false` en el script del postinstall
-1. Agregue el script de `test:zalenium`en el **package.json**
-1. Ejecute el comando `npx webdriver-manager update`
-1. Ejecute las pruebas con `npm run test:zalenium` y vea como en la página de `live` se refresca la ejecución de las pruebas
-1. Abrá la página `http://localhost:4444/dashboard` y tome un screenshot del resultado de las pruebas y lo adjunta al PR
